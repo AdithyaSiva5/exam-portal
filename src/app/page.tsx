@@ -1,41 +1,189 @@
 "use client";
-import Heading from '../components/Header'
-import LeftSidebar from '../components/Sidebar'
-import Overview from '../components/Overview'
-import MCQQuestion from '../components/MCQQuestion'
+import React, { useState, useEffect } from 'react';
+import Heading from '../components/Header';
+import LeftSidebar from '../components/Sidebar';
+import Overview from '../components/Overview';
+import MCQQuestion from '../components/MCQQuestion';
+import ResultPage from '../components/ResultPage';
+import { getQuestions } from '../utils/questionData';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+
+interface Option {
+    id: string;
+    option: string;
+}
+
+interface Question {
+    id: string;
+    question: string;
+    options: Option[];
+    correctOptionId: string;
+}
 
 export default function ExamPage() {
-    const sampleQuestion = {
-        questionNumber: 1,
-        question: "Which tech giant was founded by Larry Page and Sergey Brin while they were Ph.D. students at Stanford University?",
-        options: ["Microsoft", "Apple", "Google", "Facebook"],
+    const [questions, setQuestions] = useState<Question[]>([]);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+    const [isLoading, setIsLoading] = useState(true);
+    const [examSubmitted, setExamSubmitted] = useState(false);
+    const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
+    const [examStartTime, setExamStartTime] = useState<number | null>(null);
+    const [timeRemaining, setTimeRemaining] = useState(3600);
+    const [isOverviewExpanded, setIsOverviewExpanded] = useState(false);
+
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const fetchedQuestions = await getQuestions();
+                setQuestions(fetchedQuestions);
+                setIsLoading(false);
+                setExamStartTime(Date.now());
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchQuestions();
+    }, []);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeRemaining((prevTime) => {
+                if (prevTime <= 0) {
+                    clearInterval(timer);
+                    handleSubmit();
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
+    const handleNextQuestion = () => {
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        }
+    };
+
+    const handlePreviousQuestion = () => {
+        if (currentQuestionIndex > 0) {
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+        }
+    };
+
+    const handleFlagQuestion = () => {
+        setFlaggedQuestions((prevFlagged) => {
+            const newFlagged = new Set(prevFlagged);
+            const currentQuestionId = questions[currentQuestionIndex].id;
+            if (newFlagged.has(currentQuestionId)) {
+                newFlagged.delete(currentQuestionId);
+            } else {
+                newFlagged.add(currentQuestionId);
+            }
+            return newFlagged;
+        });
+    };
+
+    const handleJumpToQuestion = (index: number) => {
+        setCurrentQuestionIndex(index);
+        setIsOverviewExpanded(false);
+    };
+
+    const handleAnswerSelect = (questionId: string, optionId: string) => {
+        setUserAnswers(prev => ({ ...prev, [questionId]: optionId }));
+    };
+
+    const handleSubmit = () => {
+        setExamSubmitted(true);
+    };
+
+    const formatTime = (seconds: number): string => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    };
+
+    if (isLoading) {
+        return <div>Loading questions...</div>;
     }
 
     return (
-        <div className="flex flex-col h-screen dark:bg-gray-900">
-            {/* Header */}
-            <Heading />
-
-            {/* Main Content Area */}
-            <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
-                {/* Left Sidebar (hidden on mobile) */}
-                <div className="hidden md:block">
-                    <LeftSidebar />
-                </div>
-
-                {/* Overview (top on mobile, left on desktop) */}
-                <div className="md:hidden">
-                    <Overview />
-                </div>
-
-                {/* Main exam content */}
-                <div className="flex flex-col md:flex-row flex-1">
-                    <div className="hidden md:block">
-                        <Overview />
+        <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+            <div className="hidden md:block">
+                <LeftSidebar />
+            </div>
+            <div className="flex flex-col flex-1 overflow-hidden">
+                <Heading />
+                <div className="flex flex-1 overflow-hidden">
+                    {!examSubmitted && (
+                        <div className="hidden md:block w-64 p-4 bg-white dark:bg-gray-800">
+                            <Overview
+                                totalQuestions={questions.length}
+                                currentQuestion={currentQuestionIndex + 1}
+                                flaggedQuestions={flaggedQuestions}
+                                onQuestionSelect={handleJumpToQuestion}
+                                userAnswers={userAnswers}
+                                questions={questions}
+                            />
+                        </div>
+                    )}
+                    <div className="flex-1 overflow-auto p-4">
+                        {!examSubmitted && (
+                            <div className="md:hidden mb-4">
+                                <button
+                                    onClick={() => setIsOverviewExpanded(!isOverviewExpanded)}
+                                    className="flex items-center justify-between w-full p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
+                                >
+                                    <span>Overview</span>
+                                    {isOverviewExpanded ? <ChevronUp /> : <ChevronDown />}
+                                </button>
+                                {isOverviewExpanded && (
+                                    <div className="mt-2 p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                                        <Overview
+                                            totalQuestions={questions.length}
+                                            currentQuestion={currentQuestionIndex + 1}
+                                            flaggedQuestions={flaggedQuestions}
+                                            onQuestionSelect={handleJumpToQuestion}
+                                            userAnswers={userAnswers}
+                                            questions={questions}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                            {examSubmitted ? (
+                                <ResultPage
+                                    totalQuestions={questions.length}
+                                    correctAnswers={questions.reduce((count, question) =>
+                                        userAnswers[question.id] === question.correctOptionId ? count + 1 : count, 0)}
+                                    timeSpent={examStartTime ? Math.floor((Date.now() - examStartTime) / 1000) : 0}
+                                />
+                            ) : (
+                                questions.length > 0 && (
+                                    <MCQQuestion
+                                        question={questions[currentQuestionIndex].question}
+                                        options={questions[currentQuestionIndex].options}
+                                        onNextQuestion={handleNextQuestion}
+                                        onPreviousQuestion={handlePreviousQuestion}
+                                        onFlagQuestion={handleFlagQuestion}
+                                        isFlagged={flaggedQuestions.has(questions[currentQuestionIndex].id)}
+                                        questionNumber={currentQuestionIndex + 1}
+                                        onSubmit={handleSubmit}
+                                        totalQuestions={questions.length}
+                                        selectedOption={userAnswers[questions[currentQuestionIndex].id] || null}
+                                        onAnswerSelect={(optionId) => handleAnswerSelect(questions[currentQuestionIndex].id, optionId)}
+                                        timeRemaining={formatTime(timeRemaining)}
+                                    />
+                                )
+                            )}
+                        </div>
                     </div>
-                    <MCQQuestion {...sampleQuestion} />
                 </div>
             </div>
         </div>
-    )
+    );
 }
