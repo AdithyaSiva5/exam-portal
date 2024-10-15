@@ -1,3 +1,4 @@
+"use client";
 import Heading from '../components/Header'
 import LeftSidebar from '../components/Sidebar'
 import Overview from '../components/Overview'
@@ -7,25 +8,33 @@ export default function ExamPage() {
     const sampleQuestion = {
         questionNumber: 1,
         question: "Which tech giant was founded by Larry Page and Sergey Brin while they were Ph.D. students at Stanford University?",
-        options: ["Microsoft", "Apple", "Google", "IBM"],
-        timeRemaining: "00:59:56"
+        options: ["Microsoft", "Apple", "Google", "Facebook"],
     }
 
     return (
-        <div className="flex h-screen">
-            {/* Left Sidebar */}
-            <LeftSidebar />
+        <div className="flex flex-col h-screen dark:bg-gray-900">
+            {/* Header */}
+            <Heading />
 
             {/* Main Content Area */}
-            <div className="flex flex-col flex-1">
-                {/* Heading */}
-                <Heading />
+            <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+                {/* Left Sidebar (hidden on mobile) */}
+                <div className="hidden md:block">
+                    <LeftSidebar />
+                </div>
 
-                {/* Main Content */}
-                <main className="flex-1 flex bg-gray-50 overflow-hidden">
+                {/* Overview (top on mobile, left on desktop) */}
+                <div className="md:hidden">
                     <Overview />
+                </div>
+
+                {/* Main exam content */}
+                <div className="flex flex-col md:flex-row flex-1">
+                    <div className="hidden md:block">
+                        <Overview />
+                    </div>
                     <MCQQuestion {...sampleQuestion} />
-                </main>
+                </div>
             </div>
         </div>
     )

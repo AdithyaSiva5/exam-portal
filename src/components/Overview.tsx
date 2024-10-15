@@ -7,14 +7,17 @@ export default function Overview() {
     const totalQuestions = 20
 
     return (
-        <div className="w-64 bg-white p-4 border-r">
-            <h2 className="text-xl font-semibold mb-4">Overview</h2>
-            <div className="grid grid-cols-5 gap-2">
+        <div className="w-full md:w-64 bg-white dark:bg-gray-800 p-4 border-r border-gray-200 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold dark:text-white">Overview</h2>
+                <span className="text-sm font-medium dark:text-gray-300">00:59:58</span>
+            </div>
+            <div className="grid grid-cols-8 md:grid-cols-5 gap-2">
                 {[...Array(totalQuestions)].map((_, index) => (
                     <Button
                         key={index}
                         variant={selectedQuestion === index + 1 ? "default" : "outline"}
-                        className="w-10 h-10"
+                        className="w-8 h-8 md:w-10 md:h-10 text-xs md:text-sm"
                         onClick={() => setSelectedQuestion(index + 1)}
                     >
                         {index + 1}

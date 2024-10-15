@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Bell, HelpCircle, User, Moon, Sun } from 'lucide-react'
@@ -10,6 +10,10 @@ export default function Header() {
     const { theme, setTheme } = useTheme()
 
     useEffect(() => setMounted(true), [])
+
+    if (!mounted) {
+        return null
+    }
 
     return (
         <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -38,7 +42,7 @@ export default function Header() {
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             aria-label="Toggle dark mode"
                         >
-                            {mounted && (theme === 'dark' ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />)}
+                            {theme === 'dark' ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
                         </button>
                     </div>
                 </div>
