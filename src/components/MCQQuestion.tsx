@@ -1,8 +1,9 @@
+"use client";
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Flag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Flag, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 interface MCQQuestionProps {
     questionNumber: number;
@@ -15,7 +16,7 @@ interface MCQQuestionProps {
     onSubmit: () => void;
     totalQuestions: number;
     selectedOption: string | null;
-    onAnswerSelect: (optionId: string) => void;
+    onAnswerSelect: (optionId: string | null) => void;
     timeRemaining: string;
 }
 
@@ -33,6 +34,10 @@ export default function MCQQuestion({
     onAnswerSelect,
     timeRemaining
 }: MCQQuestionProps) {
+    const handleClearAnswer = () => {
+        onAnswerSelect(null);
+    };
+
     return (
         <div className="flex-1 p-4 md:p-6 bg-white dark:bg-gray-800">
             <div className="flex justify-between items-center mb-4">
@@ -71,6 +76,9 @@ export default function MCQQuestion({
                         className={isFlagged ? "bg-yellow-200 dark:bg-yellow-700" : ""}
                     >
                         <Flag className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={handleClearAnswer} disabled={!selectedOption}>
+                        <X className="h-4 w-4" />
                     </Button>
                     <Button variant="outline" size="icon" onClick={onNextQuestion} disabled={questionNumber === totalQuestions}>
                         <ChevronRight className="h-4 w-4" />

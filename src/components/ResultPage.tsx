@@ -8,10 +8,9 @@ interface ResultPageProps {
     totalQuestions: number;
     correctAnswers: number;
     timeSpent: number;
-    onRetry: () => void;
 }
 
-export default function ResultPage({ totalQuestions, correctAnswers, timeSpent, onRetry }: ResultPageProps) {
+export default function ResultPage({ totalQuestions, correctAnswers, timeSpent }: ResultPageProps) {
     const formatTime = (seconds: number): string => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
@@ -21,16 +20,11 @@ export default function ResultPage({ totalQuestions, correctAnswers, timeSpent, 
     const score = Math.round((correctAnswers / totalQuestions) * 100);
 
     // Calculate percentages for the pie chart
-    const accaPercentage = score;
-    const cmaUsaPercentage = Math.max(0, Math.min(100 - accaPercentage, 35));
-    const ciaPercentage = Math.max(0, Math.min(100 - accaPercentage - cmaUsaPercentage, 18));
-    const cmaIndPercentage = 100 - accaPercentage - cmaUsaPercentage - ciaPercentage;
-
     const data = [
-        { name: 'ACCA', value: accaPercentage },
-        { name: 'CMA USA', value: cmaUsaPercentage },
-        { name: 'CIA', value: ciaPercentage },
-        { name: 'CMA IND', value: cmaIndPercentage },
+        { name: 'ACCA', value: score },
+        { name: 'CMA USA', value: Math.max(0, Math.min(100 - score, 35)) },
+        { name: 'CIA', value: Math.max(0, Math.min(100 - score - 35, 18)) },
+        { name: 'CMA IND', value: Math.max(0, 100 - score - 35 - 18) },
     ];
 
     const COLORS = ['#FF8042', '#FFBB28', '#00C49F', '#0088FE'];

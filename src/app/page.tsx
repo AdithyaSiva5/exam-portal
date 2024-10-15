@@ -24,6 +24,7 @@ export default function ExamPage() {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+    const [viewedQuestions, setViewedQuestions] = useState<Set<string>>(new Set());
     const [isLoading, setIsLoading] = useState(true);
     const [examSubmitted, setExamSubmitted] = useState(false);
     const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
@@ -61,6 +62,12 @@ export default function ExamPage() {
 
         return () => clearInterval(timer);
     }, []);
+
+    useEffect(() => {
+        if (questions.length > 0) {
+            setViewedQuestions(prev => new Set(prev).add(questions[currentQuestionIndex].id));
+        }
+    }, [currentQuestionIndex, questions]);
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < questions.length - 1) {
@@ -127,6 +134,7 @@ export default function ExamPage() {
                                 onQuestionSelect={handleJumpToQuestion}
                                 userAnswers={userAnswers}
                                 questions={questions}
+                                viewedQuestions={viewedQuestions}
                             />
                         </div>
                     )}
@@ -149,6 +157,7 @@ export default function ExamPage() {
                                             onQuestionSelect={handleJumpToQuestion}
                                             userAnswers={userAnswers}
                                             questions={questions}
+                                            viewedQuestions={viewedQuestions}
                                         />
                                     </div>
                                 )}
