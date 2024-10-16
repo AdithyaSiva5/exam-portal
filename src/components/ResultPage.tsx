@@ -19,7 +19,7 @@ export default function ResultCard({ totalQuestions, correctAnswers, timeSpent }
     ]
 
     const COLORS = ['#FF8042', '#FFA07A', '#FFBB28', '#FF6347', '#FFD700']
-
+    
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
             <div className="w-full max-w-4xl p-4">

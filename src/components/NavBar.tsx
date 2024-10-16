@@ -9,8 +9,8 @@ import { NavItems } from './NavItems'
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
+    const isMinimized = false;
 
-    
 
     return (
         <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -22,7 +22,7 @@ export default function Navbar() {
                     </div>
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
-                            <NavItems />
+                            <NavItems isMinimized={isMinimized} />
                         </div>
                     </div>
                     <div className="md:hidden">
@@ -47,7 +47,7 @@ export default function Navbar() {
                                             <h2 className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">GENERAL</h2>
                                         </div>
                                         <div className="space-y-2">
-                                            <NavItems />
+                                            <NavItems isMinimized={isMinimized} />
                                         </div>
                                     </nav>
                                 </div>

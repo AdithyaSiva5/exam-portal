@@ -113,50 +113,51 @@ export default function ExamPage() {
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
     return (
-        <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 ">
-            {/* Navbar for all screen sizes */}
+        <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
             <nav className="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <Navbar />
             </nav>
 
             <div className="flex flex-1 overflow-hidden">
-                {/* Desktop sidebar */}
                 <div className="hidden md:block">
                     <LeftSidebar />
                 </div>
 
                 <div className="flex flex-col flex-1 overflow-hidden">
-                    {/* Desktop header */}
                     <div className="hidden md:block">
                         <Heading />
                     </div>
 
                     <div className="flex flex-1 overflow-hidden">
-                        {!examSubmitted && (
-                            <div className="hidden md:block w-64 p-4 bg-white dark:bg-gray-800">
-                                <Overview
-                                    totalQuestions={questions.length}
-                                    currentQuestion={currentQuestionIndex + 1}
-                                    flaggedQuestions={flaggedQuestions}
-                                    onQuestionSelect={handleJumpToQuestion}
-                                    userAnswers={userAnswers}
-                                    questions={questions}
-                                    viewedQuestions={viewedQuestions}
-                                />
-                            </div>
-                        )}
                         <div className="flex-1 overflow-auto p-4">
-                            {!examSubmitted && (
-                                <div className="md:hidden mb-4">
-                                    <button
-                                        onClick={() => setIsOverviewExpanded(!isOverviewExpanded)}
-                                        className="flex items-center justify-between w-full p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
-                                    >
-                                        <span>Overview</span>
-                                        {isOverviewExpanded ? <ChevronUp /> : <ChevronDown />}
-                                    </button>
-                                    {isOverviewExpanded && (
-                                        <div className="mt-2 p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                            <div className="max-w-4xl mx-auto">
+                                {!examSubmitted && (
+                                    <div className="md:hidden mb-4">
+                                        <button
+                                            onClick={() => setIsOverviewExpanded(!isOverviewExpanded)}
+                                            className="flex items-center justify-between w-full p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
+                                        >
+                                            <span>Overview</span>
+                                            {isOverviewExpanded ? <ChevronUp /> : <ChevronDown />}
+                                        </button>
+                                        {isOverviewExpanded && (
+                                            <div className="mt-2 p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                                                <Overview
+                                                    totalQuestions={questions.length}
+                                                    currentQuestion={currentQuestionIndex + 1}
+                                                    flaggedQuestions={flaggedQuestions}
+                                                    onQuestionSelect={handleJumpToQuestion}
+                                                    userAnswers={userAnswers}
+                                                    questions={questions}
+                                                    viewedQuestions={viewedQuestions}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                                <div className="flex gap-4">
+                                    {!examSubmitted && (
+                                        <div className="w-1/3">
                                             <Overview
                                                 totalQuestions={questions.length}
                                                 currentQuestion={currentQuestionIndex + 1}
@@ -168,34 +169,34 @@ export default function ExamPage() {
                                             />
                                         </div>
                                     )}
+                                    <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                                        {examSubmitted ? (
+                                            <ResultPage
+                                                totalQuestions={questions.length}
+                                                correctAnswers={questions.reduce((count, question) =>
+                                                    userAnswers[question.id] === question.correctOptionId ? count + 1 : count, 0)}
+                                                timeSpent={examStartTime ? Math.floor((Date.now() - examStartTime) / 1000) : 0}
+                                            />
+                                        ) : (
+                                            questions.length > 0 && (
+                                                <MCQQuestion
+                                                    question={questions[currentQuestionIndex].question}
+                                                    options={questions[currentQuestionIndex].options}
+                                                    onNextQuestion={handleNextQuestion}
+                                                    onPreviousQuestion={handlePreviousQuestion}
+                                                    onFlagQuestion={handleFlagQuestion}
+                                                    isFlagged={flaggedQuestions.has(questions[currentQuestionIndex].id)}
+                                                    questionNumber={currentQuestionIndex + 1}
+                                                    onSubmit={handleSubmit}
+                                                    totalQuestions={questions.length}
+                                                    selectedOption={userAnswers[questions[currentQuestionIndex].id] || null}
+                                                    onAnswerSelect={(optionId : any) => handleAnswerSelect(questions[currentQuestionIndex].id, optionId)}
+                                                    timeRemaining={formatTime(timeRemaining)}
+                                                />
+                                            )
+                                        )}
+                                    </div>
                                 </div>
-                            )}
-                            <div className="  rounded-lg shadow-sm p-4">
-                                {examSubmitted ? (
-                                    <ResultPage
-                                        totalQuestions={questions.length}
-                                        correctAnswers={questions.reduce((count, question) =>
-                                            userAnswers[question.id] === question.correctOptionId ? count + 1 : count, 0)}
-                                        timeSpent={examStartTime ? Math.floor((Date.now() - examStartTime) / 1000) : 0}
-                                    />
-                                ) : (
-                                    questions.length > 0 && (
-                                        <MCQQuestion
-                                            question={questions[currentQuestionIndex].question}
-                                            options={questions[currentQuestionIndex].options}
-                                            onNextQuestion={handleNextQuestion}
-                                            onPreviousQuestion={handlePreviousQuestion}
-                                            onFlagQuestion={handleFlagQuestion}
-                                            isFlagged={flaggedQuestions.has(questions[currentQuestionIndex].id)}
-                                            questionNumber={currentQuestionIndex + 1}
-                                            onSubmit={handleSubmit}
-                                            totalQuestions={questions.length}
-                                            selectedOption={userAnswers[questions[currentQuestionIndex].id] || null}
-                                            onAnswerSelect={(optionId: any) => handleAnswerSelect(questions[currentQuestionIndex].id, optionId)}
-                                            timeRemaining={formatTime(timeRemaining)}
-                                        />
-                                    )
-                                )}
                             </div>
                         </div>
                     </div>
