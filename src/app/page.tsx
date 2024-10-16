@@ -170,7 +170,7 @@ export default function ExamPage() {
                                     )}
                                 </div>
                             )}
-                            <div className=" dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                            <div className="  rounded-lg shadow-sm p-4">
                                 {examSubmitted ? (
                                     <ResultPage
                                         totalQuestions={questions.length}

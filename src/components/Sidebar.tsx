@@ -15,7 +15,7 @@ export default function Sidebar() {
     return (
         <>
             {/* Header (visible on all screens) */}
-            <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <header className="bg-white dark:bg-gray-800  border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between p-4">
                     <div className="flex items-center">
                         <BarChart className="w-6 h-6 text-orange-500 mr-2" />
