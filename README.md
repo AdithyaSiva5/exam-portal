@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# Project Name
+
+## Extra Features 
+- Dark Mode Enabled  
+- Loading Screen  
+- Calculates Total  
+- Viewed, Flagged, Attempted questions are shown  
+- Sidebar  
+
+## Images and Video of the Project:
+
+![Project Image 1](https://cdn.discordapp.com/attachments/1055888285345513542/1296106085077356624/image.png?ex=6711145b&is=670fc2db&hm=026509c68dbaef819fb8c60fc9530b0fff4d7db73b88503a0daf8daad5618d62&)
+![Project Image 2](https://cdn.discordapp.com/attachments/1055888285345513542/1296107236673847307/image.png?ex=6711156d&is=670fc3ed&hm=c7812c25bf64ea36c5af8aae5ae67df63c104d73525fc5d2b9419dd4b879e39c&)
+![Project Image 3](https://cdn.discordapp.com/attachments/1055888285345513542/1296107294878076929/image.png?ex=6711157b&is=670fc3fb&hm=1294d45364e2bca0477386002c10ab9bf96a1b680eb8e179773c72b45890054c&)
+
+## Project Video
+
+You can watch a video demo of the project [here](https://www.youtube.com/watch?v=1XTBXJExbdc).
+
+## Overview
+
+This project is built using **Next.js**, featuring **React**, **Tailwind CSS**, and various **Radix UI** components. It offers a robust user interface, supports efficient state management, and includes a fully responsive design. The app is designed to be scalable and maintainable with modern tools and libraries.
+
+## Features
+
+- MCQ Question and Answer system
+- User interface with Tailwind CSS and Radix UI
+- Time tracking and auto-submission after timer expires
+- Flagging, viewing, and submitting answers
+- Overview of the questions and answers
+
+## Tech Stack
+
+- **Next.js** (14.2.15)
+- **React** (18)
+- **Tailwind CSS** (3.4.13)
+- **Radix UI** for seamless UI components
+- **Jest** for testing
+
+## Prerequisites
+
+Make sure you have **Node.js** installed and a package manager like **npm** or **yarn** to install dependencies.
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   ```bash
+   git clone https://github.com/your-username/project-name.git
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Navigate to the project directory**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   cd project-name
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Install the dependencies**
 
-## Learn More
+   Using npm:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   Or using yarn:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   yarn install
+   ```
 
-## Deploy on Vercel
+4. **Start the development server**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **Building the project**
+
+   For production builds, run:
+
+   ```bash
+   npm run build
+   ```
+
+6. **Running Tests**
+
+   To run unit tests, use:
+
+   ```bash
+   npm run test
+   ```
+
+---
+
+Made with ❤️ by Adithya Sivan
