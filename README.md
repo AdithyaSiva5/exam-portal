@@ -16,7 +16,15 @@
 
 ## Project Video
 
-You can watch a video demo of the project [here](https://www.youtube.com/watch?v=1XTBXJExbdc).
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/1XTBXJExbdc"
+  frameborder="0"
+  allow="autoplay; encrypted-media"
+  allowfullscreen
+></iframe>
+
 
 ## Overview
 
