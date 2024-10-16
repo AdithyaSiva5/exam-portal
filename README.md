@@ -16,15 +16,7 @@
 
 ## Project Video
 
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/1XTBXJExbdc"
-  frameborder="0"
-  allow="autoplay; encrypted-media"
-  allowfullscreen
-></iframe>
-
+You can watch a video demo of the project [PROJECT  VIDEO ](https://www.youtube.com/watch?v=1XTBXJExbdc).
 
 ## Overview
 
