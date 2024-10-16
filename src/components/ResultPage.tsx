@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
@@ -10,6 +10,8 @@ interface ResultCardProps {
 }
 
 export default function ResultCard({ totalQuestions, correctAnswers, timeSpent }: ResultCardProps) {
+    const [animationPercent, setAnimationPercent] = useState(0);
+
     const data = [
         { name: 'ACCA', value: 25 },
         { name: 'CMA USA', value: 16 },
@@ -19,6 +21,23 @@ export default function ResultCard({ totalQuestions, correctAnswers, timeSpent }
     ]
 
     const COLORS = ['#FF8042', '#FFA07A', '#FFBB28', '#FF6347', '#FFD700']
+
+    useEffect(() => {
+        const animationDuration = 1500;
+        const intervalTime = 20;
+        const steps = animationDuration / intervalTime;
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+            currentStep++;
+            setAnimationPercent(currentStep / steps);
+            if (currentStep >= steps) {
+                clearInterval(interval);
+            }
+        }, intervalTime);
+
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <div className="flex items-center justify-center min-h-screen mt-[-5%] dark:bg-gray-900">
@@ -51,11 +70,11 @@ export default function ResultCard({ totalQuestions, correctAnswers, timeSpent }
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart>
                                         <Pie
-                                            animationDuration={1500}
+                                            animationDuration={0}
                                             data={data}
                                             cx="50%"
                                             cy="50%"
-                                            outerRadius={100}
+                                            outerRadius={100 * animationPercent}
                                             fill="#8884d8"
                                             dataKey="value"
                                             label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
