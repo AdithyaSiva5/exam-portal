@@ -99,7 +99,8 @@ export default function ExamPage() {
         setIsOverviewExpanded(false);
     };
 
-    const handleAnswerSelect = (questionId: string, optionId: string) => {
+    const handleAnswerSelect = (questionId: string, optionId: string | null) => {
+        if (!optionId) return
         setUserAnswers(prev => ({ ...prev, [questionId]: optionId }));
     };
 
@@ -114,17 +115,20 @@ export default function ExamPage() {
     };
     return (
         <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
-            <nav className="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            {/* Navbar for all screen sizes */}
+            <nav className="lg:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <Navbar />
             </nav>
 
             <div className="flex flex-1 overflow-hidden">
-                <div className="hidden md:block">
+                {/* Desktop sidebar */}
+                <div className="hidden lg:block">
                     <LeftSidebar />
                 </div>
 
                 <div className="flex flex-col flex-1 overflow-hidden">
-                    <div className="hidden md:block">
+                    {/* Desktop header */}
+                    <div className="hidden lg:block">
                         <Heading />
                     </div>
 
@@ -132,7 +136,7 @@ export default function ExamPage() {
                         <div className="flex-1 overflow-auto p-4">
                             <div className="max-w-4xl mx-auto">
                                 {!examSubmitted && (
-                                    <div className="md:hidden mb-4">
+                                    <div className="lg:hidden mb-4">
                                         <button
                                             onClick={() => setIsOverviewExpanded(!isOverviewExpanded)}
                                             className="flex items-center justify-between w-full p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
@@ -140,24 +144,11 @@ export default function ExamPage() {
                                             <span>Overview</span>
                                             {isOverviewExpanded ? <ChevronUp /> : <ChevronDown />}
                                         </button>
-                                        {isOverviewExpanded && (
-                                            <div className="mt-2 p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-                                                <Overview
-                                                    totalQuestions={questions.length}
-                                                    currentQuestion={currentQuestionIndex + 1}
-                                                    flaggedQuestions={flaggedQuestions}
-                                                    onQuestionSelect={handleJumpToQuestion}
-                                                    userAnswers={userAnswers}
-                                                    questions={questions}
-                                                    viewedQuestions={viewedQuestions}
-                                                />
-                                            </div>
-                                        )}
                                     </div>
                                 )}
-                                <div className="flex gap-4">
+                                <div className="flex flex-col lg:flex-row gap-4">
                                     {!examSubmitted && (
-                                        <div className="w-1/3">
+                                        <div className={`lg:w-1/3 ${isOverviewExpanded ? 'fixed inset-0 z-50 bg-white dark:bg-gray-800 p-4 overflow-auto' : 'hidden lg:block'}`}>
                                             <Overview
                                                 totalQuestions={questions.length}
                                                 currentQuestion={currentQuestionIndex + 1}
@@ -166,10 +157,19 @@ export default function ExamPage() {
                                                 userAnswers={userAnswers}
                                                 questions={questions}
                                                 viewedQuestions={viewedQuestions}
+                                                timeRemaining={formatTime(timeRemaining)}
                                             />
+                                            {isOverviewExpanded && (
+                                                <button
+                                                    onClick={() => setIsOverviewExpanded(false)}
+                                                    className="mt-4 w-full p-2 bg-gray-200 dark:bg-gray-700 rounded-lg"
+                                                >
+                                                    Close Overview
+                                                </button>
+                                            )}
                                         </div>
                                     )}
-                                    <div className="flex-1 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                                    <div className="flex flex-col lg:flex-row gap-4">
                                         {examSubmitted ? (
                                             <ResultPage
                                                 totalQuestions={questions.length}
@@ -190,7 +190,7 @@ export default function ExamPage() {
                                                     onSubmit={handleSubmit}
                                                     totalQuestions={questions.length}
                                                     selectedOption={userAnswers[questions[currentQuestionIndex].id] || null}
-                                                    onAnswerSelect={(optionId : any) => handleAnswerSelect(questions[currentQuestionIndex].id, optionId)}
+                                                    onAnswerSelect={(optionId) => handleAnswerSelect(questions[currentQuestionIndex].id, optionId)}
                                                     timeRemaining={formatTime(timeRemaining)}
                                                 />
                                             )

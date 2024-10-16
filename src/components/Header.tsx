@@ -16,7 +16,7 @@ const Header = ({
     const { theme, setTheme } = useTheme();
 
     return (
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 mt-1">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 ">
             <div className="container mx-auto px-4 py-2">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                     <div className="flex flex-col w-full sm:w-auto">

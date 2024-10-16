@@ -19,13 +19,13 @@ export default function ResultCard({ totalQuestions, correctAnswers, timeSpent }
     ]
 
     const COLORS = ['#FF8042', '#FFA07A', '#FFBB28', '#FF6347', '#FFD700']
-    
+
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex items-center justify-center min-h-screen mt-[-5%] dark:bg-gray-900">
             <div className="w-full max-w-4xl p-4">
-                <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-8 text-center">
+                <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-8 text-center">
                     Your results based on your answers:
-                </h1>
+                </h2>
                 <Card className="w-full bg-white dark:bg-gray-800">
                     <CardHeader>
                         <CardTitle className="text-xl font-semibold text-gray-700 dark:text-gray-300">You are most suitable for</CardTitle>
@@ -51,6 +51,7 @@ export default function ResultCard({ totalQuestions, correctAnswers, timeSpent }
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart>
                                         <Pie
+                                            animationDuration={1500}
                                             data={data}
                                             cx="50%"
                                             cy="50%"

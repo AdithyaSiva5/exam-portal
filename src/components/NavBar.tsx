@@ -20,12 +20,12 @@ export default function Navbar() {
                         <BarChart className="w-6 h-6 text-orange-500 mr-2" />
                         <h1 className="text-xl font-semibold text-gray-800 dark:text-white">ELT Global</h1>
                     </div>
-                    <div className="hidden md:block">
+                    <div className="hidden lg:block">
                         <div className="ml-10 flex items-baseline space-x-4">
                             <NavItems isMinimized={isMinimized} />
                         </div>
                     </div>
-                    <div className="md:hidden">
+                    <div className="lg:hidden">
                         <Sheet open={isOpen} onOpenChange={setIsOpen}>
                             <SheetTrigger asChild>
                                 <Button variant="ghost" size="icon">
