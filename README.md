@@ -26,7 +26,6 @@ This project is built using **Next.js**, featuring **React**, **Tailwind CSS**, 
 
 - MCQ Question and Answer system
 - User interface with Tailwind CSS and Radix UI
-- Time tracking and auto-submission after timer expires
 - Flagging, viewing, and submitting answers
 - Overview of the questions and answers
 
